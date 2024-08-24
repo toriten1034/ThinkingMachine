@@ -1,0 +1,135 @@
+header {
+    display: flex;
+    align-items: center; /* 中央揃え */
+    background-color: #f4f4f4;
+    padding: 20px;
+    text-align: center;
+}
+
+body {
+    background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.rectangle-container {
+    position: relative;
+    margin-right: 20px;
+}
+
+.custom-rectangle {
+    width: 75px;
+    height: 75px;
+    background-color: black;
+    clip-path: polygon(0 0%, 100% 0, 100% 30%, 30% 30%, 30% 100%, 0% 100%);
+}
+
+.text-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100px; /* 欠けている部分の幅に合わせて調整 */
+    height: 55px; /* 欠けている部分の高さに合わせて調整 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+.date-container {
+    font-size: 20px;
+    line-height: 1.5;
+    color: rgb(0, 0, 0); /* テキストの色を白に設定 */
+}
+
+.main-title {
+    font-size: 48px;
+    font-weight: bold;
+}
+
+h1 {
+    position: relative;
+    margin: 30px 0; /* 上下のマージン */
+    text-align: left; /* テキストを中央揃え */
+}
+
+h1::before,
+h1::after {
+    content: '';
+    position: absolute;
+    left: 0%; /* 左からの距離を調整 */
+    right: 80%; /* 右からの距離を調整 */
+    height: 5px; /* 線の太さ */
+    background-color: black; /* 線の色 */
+}
+
+h1::before {
+    top: -10px; /* 上部に配置 */
+}
+
+h1::after {
+    bottom: -10px; /* 下部に配置 */
+}
+
+h2 {
+    display: block; /* インラインブロック要素として扱う */
+    position: relative; /* 親要素を基準にするための設定 */
+    margin-bottom: 20px; /* 下部にマージンを追加 */
+    text-decoration: underline; /* テキストにアンダーラインを追加 */
+}
+
+h3 {
+    display: block; /* インラインブロック要素として扱う */
+    position: relative; /* 親要素を基準にするための設定 */
+    margin-bottom: -20px; /* 下部にマージンを追加 */
+}
+
+.sidebar {
+    width: 200px;
+    background-color: #f4f4f4;
+    padding: 10px;
+    position: fixed;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.content {
+    background-color: #f4f4f4;
+    margin-left: 220px; /* サイドバーの幅 + 余白 */
+    padding: 20px;
+    overflow-y: auto;
+}
+table {
+    border-collapse: collapse;
+    width: 200px;
+}
+
+th, td {
+    border: 1px solid black;
+    text-align: center;
+    padding: 8px;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+img {
+    max-width: 600px; /* 最大幅を設定したい場合はここで指定 */
+    max-height: 600px; /* 最大幅を設定したい場合はここで指定 */
+    margin: 0 auto;    
+    left: 50%;
+}
+
+#content {
+    width: 100%;
+    margin: 0; /* 余白をなくしてウィンドウ幅にぴったりと合わせる */
+    padding: 0; /* 必要に応じてパディングも調整 */
+    box-sizing: border-box; /* ボックスの幅計算にパディングと境界を含める */
+}
+
+p {
+    text-indent: 1em; /* 字下げの量を設定 (例: 1.5em) */
+}

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document with Index</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/dracula.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"></script>
+    <style>
+      pre{
+          counter-reset: rowNumber;
+      }
+      pre span.row-number{
+          counter-increment: rowNumber;
+      }
+      pre span.row-number::before {
+          content:counter(rowNumber);
+          width: 2rem;
+          display: inline-block;
+          color: #aaa;
+      }
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="rectangle-container">
+        <div class="custom-rectangle"></div>
+        <div class="text-overlay">
+          <div class="date-container">
+            <span class="year" id="year">year</span><br>
+            <span class="date" id="date">m/d</span>
+          </div>
+        </div>
+    </div>
+    <div class="main-title" id="title">
+        Title
+    </div>
+  </header>
+
+  <div class="sidebar" id="sidebar">
+      <ul id="toc"></ul>
+  </div>
+  <div class="content" id="mymd">
+  </div>
+  
+  <script src="dist/header.js"></script>
+  <script src="dist/md_render.js"></script>
+  <script src="dist/main.js"></script>
+  <script src="dist/script.js"></script>
+  
+  <script>
+    
+    async function main() {
+      const filename = await GetFilename(document);  
+      console.log("ファイル名:", filename);
+      console.log("hey image", document);
+
+      hljs.addPlugin({
+          'after:highlightElement': ({ el, result, text }) => {
+              result.value = result.value.replace(/^/gm,'<span class="row-number"></span>');
+          }
+      });
+
+      hljs.highlightAll();
+      CreateIndex();
+
+
+    }
+
+    main();
+
+  </script>
+
+
+  </body>
+</html>
+  

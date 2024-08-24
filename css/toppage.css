@@ -1,0 +1,121 @@
+
+
+header {
+    display: flex;
+    align-items: center; /* 中央揃え */
+    background-color: #f4f4f4;
+    padding: 20px;
+    text-align: center;
+}
+
+body {
+    background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.rectangle-container {
+    position: relative;
+    margin-right: 20px;
+}
+
+.custom-rectangle {
+    width: 75px;
+    height: 75px;
+    background-color: black;
+    clip-path: polygon(0 0%, 100% 0, 100% 30%, 30% 30%, 30% 100%, 0% 100%);
+}
+
+.text-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100px; /* 欠けている部分の幅に合わせて調整 */
+    height: 55px; /* 欠けている部分の高さに合わせて調整 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+.date-container {
+    font-size: 20px;
+    line-height: 1.5;
+    color: rgb(0, 0, 0); /* テキストの色を白に設定 */
+}
+
+.main-title {
+    font-size: 48px;
+    position: relative;
+    padding-left: 80px; /* 正方形のサイズ + 余白 */
+    display: inline-block;
+}
+.main-title::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 60px;
+    height: 60px;
+    background: repeating-linear-gradient(
+        -45deg,
+        black 10px,
+        black 25px,
+        #f4f4f4 25px,
+        #f4f4f4 40px
+    );
+    transform: translateY(-50%);
+}
+
+h1 {
+    position: relative;
+    margin: 10px 0; /* 上下のマージン */
+    text-align: left; /* テキストを中央揃え */
+}
+
+h1::before,
+h1::after {
+    content: '';
+    position: absolute;
+    left: 0%; /* 左からの距離を調整 */
+    right: 80%; /* 右からの距離を調整 */
+    height: 10px; /* 線の太さ */
+    background-color: black; /* 線の色 */
+}
+
+h1::before {
+    top: -10px; /* 上部に配置 */
+}
+
+h1::after {
+    bottom: -10px; /* 下部に配置 */
+}
+
+h2 {
+    display: inline;
+    position: relative; /* 親要素を基準にするための設定 */
+    margin-bottom: 20px; /* 下部にマージンを追加 */
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -5px; /* テキストの少し下にアンダーラインを配置 */
+    width: 100%;
+    height: 2px; /* アンダーラインの太さ */
+    background-color: black; /* アンダーラインの色 */
+}
+
+
+.content {
+    background-color: #f4f4f4;
+    margin-left: 20px; /* サイドバーの幅 + 余白 */
+    padding: 20px;
+    overflow-y: auto;
+}
+
+li{
+    font-size: 25px;
+}
