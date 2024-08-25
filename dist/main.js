@@ -58,6 +58,13 @@ async function setHeader(filename) {
             else {
                 console.error("Title element not found");
             }
+            const headerTitleElement = document.getElementById('headerTitle');
+            if (headerTitleElement) {
+                headerTitleElement.textContent = title;
+            }
+            else {
+                console.error("Title element not found");
+            }
             // 年要素
             const yearElement = document.getElementById('year');
             if (yearElement) {

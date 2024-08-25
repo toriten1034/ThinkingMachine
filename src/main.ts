@@ -57,8 +57,16 @@ async function setHeader(filename: string | undefined) {
 
             // タイトル要素
             const titleElement = document.getElementById('title');
+
             if (titleElement) {
                 titleElement.textContent = title;
+            } else {
+                console.error("Title element not found");
+            }
+
+            const headerTitleElement = document.getElementById('headerTitle');
+            if (headerTitleElement) {
+                headerTitleElement.textContent = title;
             } else {
                 console.error("Title element not found");
             }
