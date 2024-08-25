@@ -22,7 +22,6 @@ class LineManage {
     }
 
     isLast(): boolean {
-        console.log(this.currentIndex);
         return this.currentIndex >= this.lines.length;
     }
 }
@@ -84,7 +83,6 @@ function md2html(md_text: string, contentBody:HTMLElement) {
             codeText = lines.slice(1).join("\n");
              
             codeElement.textContent = `${codeText}`;
-            console.log(codeElement.textContent);
             codeElement.className = `language-${languageName} `;
             preTag.appendChild(codeElement);
             contentBody.appendChild(preTag);
@@ -121,7 +119,6 @@ function table(contentBody:HTMLElement, lineManager: LineManage){
         for(let i = 1; i < headList.length-1; i++){
             const tdTag = document.createElement('td');
             tdTag.innerHTML = markup(headList[i]);
-            console.log("tdTag :",tdTag);
             headerTrTag.appendChild(tdTag);
         }
         theadTag.appendChild(headerTrTag);
@@ -180,7 +177,6 @@ enum LineType{
 }
 
 function lineType(lineText: string):LineType{
-    console.log(lineText);
     const itemizeRegex = /^\s*-\s.*$/;
     const enumRegex = /^\s*\d+\.\s.*$/;
     const tableBorderRegrex = /^\|(-{2,}\|)+$/;
@@ -226,14 +222,11 @@ function itemize(contentBody:HTMLElement, lineManager: LineManage, parentNestLev
     let ulTag = document.createElement('ul');
     let firstLiTag = document.createElement('li');
     
-    firstLiTag.innerHTML = checkboxHtml(markup(lineManager.getLine().split("-")[1]));
+    firstLiTag.innerHTML = checkboxHtml(markup(lineManager.getLine().split("- ",2)[1]));
     const match = lineManager.getLine().match(/^(\s*)/);
     ulTag.appendChild(firstLiTag);
-    console.log("firstLi",ulTag);
-
 
     let currentNestLevel = match ? match[1].length : 0;
-
     lineManager.next();
 
     while(lineManager.isLast() == false){
@@ -249,9 +242,8 @@ function itemize(contentBody:HTMLElement, lineManager: LineManage, parentNestLev
                 return;
             }else {
                 let liTag = document.createElement('li');
-                liTag.innerHTML = checkboxHtml(markup(lineManager.getLine().split("-")[1]));
+                liTag.innerHTML = checkboxHtml(markup(lineManager.getLine().split("- ",2)[1]));
                 ulTag.appendChild(liTag);
-                console.log(ulTag);
                 const match = lineManager.getLine().match(/^(\s*)/);
                 lineManager.next();
             }
@@ -278,8 +270,6 @@ function enumerate(contentBody:HTMLElement, lineManager: LineManage, parentNestL
             
     const match = lineManager.getLine().match(/^(\s*)/);
     ulTag.appendChild(firstLiTag);
-    console.log("firstLi",ulTag);
-
 
     let currentNestLevel = match ? match[1].length : 0;
 
@@ -303,7 +293,6 @@ function enumerate(contentBody:HTMLElement, lineManager: LineManage, parentNestL
                     liTag.innerHTML = markup(matchContent[2]);    
                 }
                 ulTag.appendChild(liTag);
-                console.log(ulTag);
                 const match = lineManager.getLine().match(/^(\s*)/);
                 lineManager.next();
             }
@@ -371,22 +360,26 @@ function horizonalLine(contentBody:HTMLElement, lineManager: LineManage){
 }
 
 function blockProcess(contentBody:HTMLElement, blockText: string){
+
     let lineManager = new LineManage(blockText);
     while(lineManager.isLast() == false){
-        const currentLine = lineType(lineManager.getLine());
-        if(currentLine == LineType.HEADER){
+        const currentLineType = lineType(lineManager.getLine());
+        console.log("Process target text :", lineManager.getLine())
+        console.log("Line type is :",LineType[currentLineType] );
+
+        if(currentLineType == LineType.HEADER){
             header(contentBody, lineManager);
-        }else if(currentLine == LineType.TABLE_CONTENT){
+        }else if(currentLineType == LineType.TABLE_CONTENT){
             table(contentBody, lineManager);
-        }else if(currentLine == LineType.ITEMIZE){
+        }else if(currentLineType == LineType.ITEMIZE){
             itemize(contentBody, lineManager,0);
-        }else if(currentLine == LineType.ENUMERATE){
+        }else if(currentLineType == LineType.ENUMERATE){
             enumerate(contentBody, lineManager,0);
-        }else if(currentLine == LineType.PARAGRAPH){
+        }else if(currentLineType == LineType.PARAGRAPH){
             paragraph(contentBody, lineManager,"");
-        }else if(currentLine == LineType.IMAGE){
+        }else if(currentLineType == LineType.IMAGE){
             imageBlock(contentBody, lineManager);
-        }else if(currentLine == LineType.HLINE){
+        }else if(currentLineType == LineType.HLINE){
             horizonalLine(contentBody, lineManager);
         }else{
             lineManager.next();
