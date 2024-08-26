@@ -80,6 +80,10 @@ function md2html(md_text: string, contentBody:HTMLElement) {
 
             console.log(`fist line ${codeText}`);
             const languageName = lines[0];
+            
+
+            lines.pop();
+            
             codeText = lines.slice(1).join("\n");
              
             codeElement.textContent = `${codeText}`;
