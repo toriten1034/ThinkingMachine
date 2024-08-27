@@ -76,14 +76,22 @@ h2 {
     display: block; /* インラインブロック要素として扱う */
     position: relative; /* 親要素を基準にするための設定 */
     margin-bottom: 20px; /* 下部にマージンを追加 */
-    text-decoration: underline; /* テキストにアンダーラインを追加 */
 }
+
+
 
 h3 {
     display: block; /* インラインブロック要素として扱う */
     position: relative; /* 親要素を基準にするための設定 */
+    text-decoration: underline; /* テキストにアンダーラインを追加 */ 
     margin-bottom: -20px; /* 下部にマージンを追加 */
 }
+
+h4::before {
+    content: "\25C6"; /* Unicode ひし形 */
+    margin-right: 10px; /* テキストとの間隔 */
+}
+
 
 .sidebar {
     width: 200px;

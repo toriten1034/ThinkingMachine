@@ -2,12 +2,21 @@ function CreateIndex() {
     const toc = document.getElementById("toc");
     const headers = document.querySelectorAll("h1, h2");
 
+    if (!toc) return;
+
     let currentUl = toc;
-    const ulStack = [currentUl];
     let previousLevel = 1;
 
+    let h1_index=0,  h2_index=0; 
     headers.forEach((header, index) => {
-        const id = `header-${index}`;
+        const prefix = header.tagName.toLowerCase() === "h1" ? "h1-" : "h2-";
+        if(header.tagName.toLowerCase() == "h1"){
+            h1_index +=1;
+        }else if(header.tagName.toLowerCase() == "h2"){
+            h2_index +=1;
+        }
+
+        const id = `${prefix}${header.tagName.toLowerCase() === "h1" ? h1_index : h2_index}`;
         header.id = id;
 
         const li = document.createElement("li");
@@ -17,18 +26,16 @@ function CreateIndex() {
         li.appendChild(a);
 
         const level = parseInt(header.tagName.substring(1));
-        if (level > previousLevel) {
-            // ネストを増やす
-            const newUl = document.createElement("ul");
-            ulStack[ulStack.length - 1].appendChild(newUl);
-            ulStack.push(newUl);
-        } else if (level < previousLevel) {
-            // ネストを下げる
-            ulStack.pop();
-        }
-        currentUl = ulStack[ulStack.length - 1];
-        currentUl.appendChild(li);
 
+        if (level > previousLevel) {
+            const newUl = document.createElement("ul");
+            currentUl.appendChild(newUl);
+            currentUl = newUl;
+        } else if (level < previousLevel) {
+            currentUl = toc;  // ネストを戻す場合はtocに戻す
+        }
+
+        currentUl.appendChild(li);
         previousLevel = level;
     });
 }
