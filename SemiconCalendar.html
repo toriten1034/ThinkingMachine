@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thinking Machine</title>
+    <link rel="stylesheet" href="./css/toppage.css">
+    <style>
+    /* CSSスタイルをここに貼り付けてください */
+    /* テーブルのスタイル */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 2px solid black; /* カレンダーの枠線を太くする */
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border: 1px solid black;
+    }
+
+    th div {
+      display: flex;
+      align-items: center;
+    }
+
+    th button {
+      margin: 0;
+      padding: 0;
+      border: none;
+      background: none;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    button {
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+
+    #legend {
+      margin-top: 20px;
+    }
+
+    #topicLegend {
+      list-style: none;
+      padding: 0;
+    }
+
+    #topicLegend li {
+      margin-bottom: 5px;
+    }
+
+    li{
+        font-size: 20px;
+    }
+
+      </style>
+</head>
+<body>
+    <header>
+        <div class="main-title">
+            半導体カレンダー
+        </div>
+    </header>
+
+        
+    </p>
+    <div class="container">
+        <div class="content">
+
+
+            <p>
+                半導体の学会スケジュールやCFP、締め切り、等の情報をまとめたカレンダーです。<br>
+            </p>
+            <p>
+            
+            <iframe src="https://calendar.google.com/calendar/embed?height=800&wkst=1&ctz=Asia%2FTokyo&bgcolor=%23ffffff&src=NDkwNjkzZWIzMmExMTMwNTFmZDI3NzhlNWQ4MGNlOTBiNjUxYTlhZWQxODdkYzRiZDY5NmI0ZWNlMjgzZTFkYkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=NDYwMmVjMGI0MmE3NzQ0OWIwMWViNDc2MDlmMDk5MWJlZWU2ZGI5YzQxYzJhMWE3NTNkZGI1Nzc0NzE3ZTM1MUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=ZGZjMDY5ZjMxOGM5YTA0MzkxNDUzMzA4OGRlY2Y3YTJiMzBmZWViOWE5MjY2ZjhlZTY1ZjcyNDc1ODY4MWUxZkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=MTQzMzhhMzA4NDZlMmE2YTI5MTQwNDBlNmExODhmZmQxYmEzM2IwYzE0NzM5ZDE3MDQ0ZGQ1YmZmMjEzNjkyYUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=ZWQwYjRiZjkyODgyZDcxNGQ5ZmIwYTU1YTFkYTU1Nzc0YzQ3YzM4YTA5MmNlNjdhOWI3OGQ4YjQ4YjA1NTJhMEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=ZGYzMWEyNmIzYTRhZWFhOTVlZDdlZWRjNDA2ZWZhN2JlMmIwYzY1NWM3N2MzNjRhODk3ZDZlNWMwNGE0ZjQ0NkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=MWI3Yjg0NDEyYjlmNTBjYjUwMDcwZDE4ZDIyZmQ4YmNhYWMxMzdjMjg5MzRlOWNiYzlkNzM4MmYyNTk1ZTY3N0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=YmJjMmZjYmVkZGYxMzkwZDFmOWI3MDE0NWI1N2UzNmI4OGI0ZWRlZTM5ZWRhODdiYzcxNDJiYmQxNjY1NjYyMkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%237986CB&color=%23C0CA33&color=%23E67C73&color=%23D81B60&color=%23F4511E&color=%23AD1457&color=%23B39DDB&color=%23039BE5" style="border:solid 1px #777" width="1000" height="800" frameborder="0" scrolling="no"></iframe>    
+        </p>
+            
+            <h3>注意点</h3>
+            
+                <ul>
+                    <li>情報が常に最新である保証はありません。各学会のホームページを確認してください</li>
+                    <li>IEEEを中心に掲載しておりますので、すべての学会を網羅はできておりません</li>
+                    <li>間違いを発見した場合、追加してほしい学会がある場合はTwitter : @NoOne_1024に報告ください。</li>
+                </ul>
+            
+
+            <h2>日程</h2>
+            <p>                
+            CFPや締切は管理人が一日1回手作業で更新しています。正確な情報は各学会のページを確認してください。
+            </p>
+
+         　 <div id="tableContainer"></div>
+            <hr>
+            <h3>Contact</h3> 
+            Name    : Ryotaro Ohara</br>
+            Email   : ohara.ryotaro@gmail.com</br>
+            Twitter : <a href="https://x.com/NoOne_1024">@NoOne_1024</a></br>
+            Misskey : <a href="https://misskey.io/@toriten1024">@toriten1024</a><br>
+            はてなブログ : <a href="https://toriten1024.hatenablog.com/">toriten1024</a><br>
+        </div>
+    </div>
+    <script src="dist/calender_table.js"></script>
+</body>
+</html>
