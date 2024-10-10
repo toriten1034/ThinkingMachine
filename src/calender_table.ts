@@ -2,24 +2,28 @@ interface EventData {
     start: string;
     end: string;
     conferenceName: string;
-    topic: string;
+    conferenceType: string;
     deadline: string;
     acceptanceNotification: string;
     cfp: string;
+    topics:string;
   }
   
   const topicColors: { [key: string]: string } = {
-    "デジタル": "#D81B60", // LemonChiffon
-    "アナログ": "#C0CA33", // LightCyan
-    "デバイス": "#F4511E", // Honeydew
-    "設計": "#039BE5",     // 濃いブルー
-    "総合": "#B39DDB",     // WhiteSmoke
+    "Digital": "#737373", // LemonChiffon
+    "Analog": "#C7561E", // LightCyan
+    "Device": "#536CA6", // Honeydew
+    "BroadScope": "#65AD89",     // 濃いブルー
+    "Design": "#AD2D2D",     // WhiteSmoke
+    "Manufacturing": "#972DA9",     // WhiteSmoke
+    "Transducer": "#EB17CE ",     // WhiteSmoke
   };
   
   async function fetchData(): Promise<EventData[]> {
-    const response = await fetch('https://sheets.googleapis.com/v4/spreadsheets/1d0fHb8z1cdq0WVVsFRFrqfx2fMK9dBNdPWeWa7VyzEU/values/Events?key=AIzaSyC-UgJmYBZ8tYGuBhTefFykSCqR4nemueY');
+    const response = await fetch('https://sheets.googleapis.com/v4/spreadsheets/1Yk5buzpmd9QBQdL5xf1HB6ozU6zmXko6-ZbdwU8Ty54/values/EventTable?key=AIzaSyC-UgJmYBZ8tYGuBhTefFykSCqR4nemueY');
+        
     const data = await response.json();
-  
+    
     const values = data.values;
     const headers = values[0];
     const events: EventData[] = [];
@@ -34,10 +38,11 @@ interface EventData {
         start: event["Start"],
         end: event["End"],
         conferenceName: event["ConferenceName"],
-        topic: event["Topic"],
+        conferenceType: event["ConferenceType"],
         deadline: event["Deadline"],
         acceptanceNotification: event["Acceptance Notification"],
         cfp: event["CFP"],
+        topics: event["Topics"]
       });
     }
   
@@ -118,13 +123,33 @@ interface EventData {
       nameCell.textContent = event.conferenceName;
       row.appendChild(nameCell);
   
-      // 研究分野
+      // 研究分野のセルを作成
       const topicCell = document.createElement('td');
-      topicCell.textContent = event.topic;
-      // 「研究分野」のセルのみ色付け
-      topicCell.style.backgroundColor = topicColors[event.topic] || "#FFFFFF";
+      topicCell.style.color = "#FFFFFF"; 
+      topicCell.style.backgroundColor = topicColors[event.conferenceType] || "#FFFFFF";
+
+      // テキスト部分にポップアップを適用するためのコンテナを作成
+      const popupContainer = document.createElement('div');
+      popupContainer.classList.add('popup');
+
+      // テキスト（Deviceなどの内容）を作成
+      const textNode = document.createTextNode(event.conferenceType);
+
+      // ポップアップのテキスト（event.topics）を作成
+      const popupText = document.createElement('div');
+      popupText.textContent = event.topics;  // event.topics の内容をポップアップに表示
+      popupText.classList.add('popuptext');
+
+      // popupContainerにテキストとポップアップを追加
+      popupContainer.appendChild(textNode);
+      popupContainer.appendChild(popupText);
+
+      // topicCellにpopupContainerを追加
+      topicCell.appendChild(popupContainer);
+
+      // 行にセルを追加
       row.appendChild(topicCell);
-  
+        
       // 投稿締め切り
       const deadlineCell = document.createElement('td');
       deadlineCell.textContent = event.deadline;
@@ -170,38 +195,41 @@ interface EventData {
     rows.forEach(row => tbody.appendChild(row));
   }
   
-  function createLegend() {
-    const legendContainer = document.getElementById('topicLegend')!;
-    for (const topic in topicColors) {
-      const listItem = document.createElement('li');
-      const colorBox = document.createElement('span');
-  
-      // ColorBoxのスタイル設定
-      colorBox.style.display = 'inline-block';
-      colorBox.style.width = '80px'; // 必要に応じて調整
-      colorBox.style.height = '20px';
-      colorBox.style.backgroundColor = topicColors[topic];
-      colorBox.style.border = '1px solid black';
-      colorBox.style.marginRight = '8px';
-      colorBox.style.textAlign = 'center';
-      colorBox.style.lineHeight = '20px';
-      colorBox.style.color = 'white';
-      colorBox.style.fontWeight = 'bold';
-  
-      // ColorBox内にテキストを追加
-      colorBox.textContent = topic;
-  
-      // ColorBoxをリストアイテムに追加
-      listItem.appendChild(colorBox);
-      legendContainer.appendChild(listItem);
-    }
-  }
-  
-
   
   (async () => {
     const events = await fetchData();
     createTable(events);
-    createLegend();
+
   })();
   
+  // テーブルをクリアする関数
+function clearTable() {
+  const tableContainer = document.getElementById('tableContainer');
+  if (tableContainer) {
+    tableContainer.innerHTML = '';  // テーブルコンテナ内のHTMLをクリア
+  }
+}
+
+// フィルタリングされたイベントを表示する関数
+function filterEvents(events: EventData[], filterText: string) {
+  const filteredEvents = events.filter(event => {
+    // フィルタテキストが topics に含まれるかチェック
+    return event.topics.toLowerCase().includes(filterText.toLowerCase());
+  });
+
+  // テーブルを再描画
+  clearTable();
+  createTable(filteredEvents);
+}
+
+// イベントを作成し、フィルタリングのためにリスナーを追加
+(async () => {
+  const events = await fetchData();
+
+  // フィルタ入力に対するリスナーを設定
+  const filterInput = document.getElementById('topicFilter') as HTMLInputElement;
+  filterInput.addEventListener('input', () => {
+    const filterText = filterInput.value;
+    filterEvents(events, filterText);
+  });
+})();

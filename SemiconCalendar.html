@@ -5,74 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thinking Machine</title>
     <link rel="stylesheet" href="./css/toppage.css">
-    <style>
-    /* CSSスタイルをここに貼り付けてください */
-    /* テーブルのスタイル */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      border: 2px solid black; /* カレンダーの枠線を太くする */
-    }
-
-    th, td {
-      padding: 8px;
-      text-align: left;
-      border: 1px solid black;
-    }
-
-    th div {
-      display: flex;
-      align-items: center;
-    }
-
-    th button {
-      margin: 0;
-      padding: 0;
-      border: none;
-      background: none;
-      cursor: pointer;
-      line-height: 1;
-    }
-
-    button {
-      padding: 5px 10px;
-      cursor: pointer;
-    }
-
-    #legend {
-      margin-top: 20px;
-    }
-
-    #topicLegend {
-      list-style: none;
-      padding: 0;
-    }
-
-    #topicLegend li {
-      margin-bottom: 5px;
-    }
-
-    li{
-        font-size: 20px;
-    }
-
-    table {
-      width: 100%;
-      margin: 0 auto; /* テーブルを中央に配置 */
-      border-collapse: collapse;
-      border: 2px solid black; /* カレンダーの枠線を太くする */
-      margin-left:0px;
-      margin-right:auto;
-    }
-    
-
-
-      </style>
+    <link rel="stylesheet" href="./css/calendar.css">
 </head>
 <body>
     <header>
         <div class="main-title">
-            半導体カレンダー
+            半導体国際会議カレンダー
         </div>
     </header>
     <div class="container">
@@ -80,22 +18,36 @@
             <h2>カレンダー</h2>
             <p>
                 半導体の学会スケジュールやCFP、締め切り、等の情報をまとめたカレンダーです。<br>
-                <iframe src="https://calendar.google.com/calendar/embed?height=1000&wkst=1&ctz=Asia%2FTokyo&bgcolor=%23ffffff&title=%E5%8D%8A%E5%B0%8E%E4%BD%93%E5%9B%BD%E9%9A%9B%E4%BC%9A%E8%AD%B0%E3%82%AB%E3%83%AC%E3%83%B3%E3%83%80%E3%83%BC&showTabs=0&src=NDYwMmVjMGI0MmE3NzQ0OWIwMWViNDc2MDlmMDk5MWJlZWU2ZGI5YzQxYzJhMWE3NTNkZGI1Nzc0NzE3ZTM1MUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=MTQzMzhhMzA4NDZlMmE2YTI5MTQwNDBlNmExODhmZmQxYmEzM2IwYzE0NzM5ZDE3MDQ0ZGQ1YmZmMjEzNjkyYUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=ZWQwYjRiZjkyODgyZDcxNGQ5ZmIwYTU1YTFkYTU1Nzc0YzQ3YzM4YTA5MmNlNjdhOWI3OGQ4YjQ4YjA1NTJhMEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=MWI3Yjg0NDEyYjlmNTBjYjUwMDcwZDE4ZDIyZmQ4YmNhYWMxMzdjMjg5MzRlOWNiYzlkNzM4MmYyNTk1ZTY3N0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=YmJjMmZjYmVkZGYxMzkwZDFmOWI3MDE0NWI1N2UzNmI4OGI0ZWRlZTM5ZWRhODdiYzcxNDJiYmQxNjY1NjYyMkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23C0CA33&color=%23D81B60&color=%23F4511E&color=%23B39DDB&color=%23039BE5" style="border:solid 1px #777; width: 100%;  height: 800px;" frameborder="0" scrolling="no"></iframe>
+                <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=Asia%2FTokyo&bgcolor=%23ffffff&title=%E5%8D%8A%E5%B0%8E%E4%BD%93%E5%9B%BD%E9%9A%9B%E4%BC%9A%E8%AD%B0%E3%82%AB%E3%83%AC%E3%83%B3%E3%83%80%E3%83%BC&src=NDYwMmVjMGI0MmE3NzQ0OWIwMWViNDc2MDlmMDk5MWJlZWU2ZGI5YzQxYzJhMWE3NTNkZGI1Nzc0NzE3ZTM1MUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=MTQzMzhhMzA4NDZlMmE2YTI5MTQwNDBlNmExODhmZmQxYmEzM2IwYzE0NzM5ZDE3MDQ0ZGQ1YmZmMjEzNjkyYUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=ZWQwYjRiZjkyODgyZDcxNGQ5ZmIwYTU1YTFkYTU1Nzc0YzQ3YzM4YTA5MmNlNjdhOWI3OGQ4YjQ4YjA1NTJhMEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=ZDI1NjZiMTQyYzYzNzRhMzQ2NDE3ODgzM2I1M2M0YWJjZjY5YjVhMTIyZTEzMWYxYjI3MDFmZTdjZTYzOWNlNEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=MWI3Yjg0NDEyYjlmNTBjYjUwMDcwZDE4ZDIyZmQ4YmNhYWMxMzdjMjg5MzRlOWNiYzlkNzM4MmYyNTk1ZTY3N0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=NTVhNzc4YjJmZWRiMjljMWYyYzM0YTQ0MTRkNzg4ZTg1MTk3ZDVlMzc5MGExYWYzZWVmYjY3MjYyMDBkZmMyZEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=YmJjMmZjYmVkZGYxMzkwZDFmOWI3MDE0NWI1N2UzNmI4OGI0ZWRlZTM5ZWRhODdiYzcxNDJiYmQxNjY1NjYyMkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=NGxoN3RxbGtlMGk3amI3ZW5sY3ZvN3VsaGtAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&color=%23EF6C00&color=%23616161&color=%233F51B5&color=%23B39DDB&color=%2333B679&color=%238E24AA&color=%23D50000&color=%23D81B60"style="border:solid 1px #777; width: 100%;  height: 800px;" frameborder="0" scrolling="no"></iframe>
             </p>
             
             <h3>注意点</h3>
                 <ul>
-                    <li>情報が常に最新である保証はありません。各学会のホームページを確認してください。</li>
-                    <li>IEEEを中心に掲載しておりますので、すべての学会を網羅はできておりません。</li>
-                    <li>間違いを発見した場合、追加してほしい学会がある場合はTwitter : @NoOne_1024に報告いただけると助かります。</li>
+                    <li>情報が常に最新であるとは限りません。各学会のホームページをご確認ください。</li>
+                    <li>IEEEを中心に掲載していますが、すべての学会を網羅できているわけではありません。</li>
+                    <li>研究分野の分類は私の独断と偏見ですので、参考までにしてください。研究トピックフィルタで詳細なトピックを検索できます。</li>
+                    <li>間違いを発見した場合や、追加してほしい学会がある場合は、Twitter : <a href="https://x.com/NoOne_1024">@NoOne_1024</a> にご報告いただけると幸いです。</li>
                 </ul>
 
-            <h2>一覧</h2>
+            <h2>国際会議リスト</h2>
             <p>                
-            CFPや締切は管理人が一日1回手作業で更新しています。正確な情報は各学会のページを確認してください。
+            CFPや締切情報は管理人が一日1回手作業で更新しています。正確な情報は各学会のページを確認してください。
             </p>
+            
+            <div>
+              <h3>研究トピックスフィルタ</h3>
+              (”Alalog”や"Device”等のキーワードを入れると、そのキーワードがトピックに含まれる学会だけを表示します)<br>
+              <input type="text" size="15px" id="topicFilter" placeholder="Filter topics..."  style="font-size: 20px; padding: 10px;">
+            </div>
             <br>
             <div id="tableContainer", width="800px"></div>
+            <h3>テーブルの使い方</h3>
+            <ul>
+              <li>それぞれの文字の横の三角形を押すとソートできます。</li>
+              <li>研究分野にマウスオーバーすると詳細なトピックが表示されます</li>
+              <li>CFPはCFPのPDFが掲載されているページ、もしくはCFPのWebページにリンクしています。</li>
+            </ul>
+            
             <hr>
             <h3>Contact</h3> 
             Name    : Ryotaro Ohara</br>

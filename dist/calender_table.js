@@ -1,13 +1,15 @@
 "use strict";
 const topicColors = {
-    "デジタル": "#D81B60",
-    "アナログ": "#C0CA33",
-    "デバイス": "#F4511E",
-    "設計": "#039BE5",
-    "総合": "#B39DDB", // WhiteSmoke
+    "Digital": "#737373",
+    "Analog": "#C7561E",
+    "Device": "#536CA6",
+    "BroadScope": "#65AD89",
+    "Design": "#AD2D2D",
+    "Manufacturing": "#972DA9",
+    "Transducer": "#EB17CE ", // WhiteSmoke
 };
 async function fetchData() {
-    const response = await fetch('https://sheets.googleapis.com/v4/spreadsheets/1d0fHb8z1cdq0WVVsFRFrqfx2fMK9dBNdPWeWa7VyzEU/values/Events?key=AIzaSyC-UgJmYBZ8tYGuBhTefFykSCqR4nemueY');
+    const response = await fetch('https://sheets.googleapis.com/v4/spreadsheets/1Yk5buzpmd9QBQdL5xf1HB6ozU6zmXko6-ZbdwU8Ty54/values/EventTable?key=AIzaSyC-UgJmYBZ8tYGuBhTefFykSCqR4nemueY');
     const data = await response.json();
     const values = data.values;
     const headers = values[0];
@@ -22,10 +24,11 @@ async function fetchData() {
             start: event["Start"],
             end: event["End"],
             conferenceName: event["ConferenceName"],
-            topic: event["Topic"],
+            conferenceType: event["ConferenceType"],
             deadline: event["Deadline"],
             acceptanceNotification: event["Acceptance Notification"],
             cfp: event["CFP"],
+            topics: event["Topics"]
         });
     }
     return events;
@@ -90,11 +93,25 @@ function createTable(events) {
         const nameCell = document.createElement('td');
         nameCell.textContent = event.conferenceName;
         row.appendChild(nameCell);
-        // 研究分野
+        // 研究分野のセルを作成
         const topicCell = document.createElement('td');
-        topicCell.textContent = event.topic;
-        // 「研究分野」のセルのみ色付け
-        topicCell.style.backgroundColor = topicColors[event.topic] || "#FFFFFF";
+        topicCell.style.color = "#FFFFFF";
+        topicCell.style.backgroundColor = topicColors[event.conferenceType] || "#FFFFFF";
+        // テキスト部分にポップアップを適用するためのコンテナを作成
+        const popupContainer = document.createElement('div');
+        popupContainer.classList.add('popup');
+        // テキスト（Deviceなどの内容）を作成
+        const textNode = document.createTextNode(event.conferenceType);
+        // ポップアップのテキスト（event.topics）を作成
+        const popupText = document.createElement('div');
+        popupText.textContent = event.topics; // event.topics の内容をポップアップに表示
+        popupText.classList.add('popuptext');
+        // popupContainerにテキストとポップアップを追加
+        popupContainer.appendChild(textNode);
+        popupContainer.appendChild(popupText);
+        // topicCellにpopupContainerを追加
+        topicCell.appendChild(popupContainer);
+        // 行にセルを追加
         row.appendChild(topicCell);
         // 投稿締め切り
         const deadlineCell = document.createElement('td');
@@ -134,31 +151,34 @@ function sortTable(columnIndex, order) {
     // ソート後の行をテーブルに追加
     rows.forEach(row => tbody.appendChild(row));
 }
-function createLegend() {
-    const legendContainer = document.getElementById('topicLegend');
-    for (const topic in topicColors) {
-        const listItem = document.createElement('li');
-        const colorBox = document.createElement('span');
-        // ColorBoxのスタイル設定
-        colorBox.style.display = 'inline-block';
-        colorBox.style.width = '80px'; // 必要に応じて調整
-        colorBox.style.height = '20px';
-        colorBox.style.backgroundColor = topicColors[topic];
-        colorBox.style.border = '1px solid black';
-        colorBox.style.marginRight = '8px';
-        colorBox.style.textAlign = 'center';
-        colorBox.style.lineHeight = '20px';
-        colorBox.style.color = 'white';
-        colorBox.style.fontWeight = 'bold';
-        // ColorBox内にテキストを追加
-        colorBox.textContent = topic;
-        // ColorBoxをリストアイテムに追加
-        listItem.appendChild(colorBox);
-        legendContainer.appendChild(listItem);
-    }
-}
 (async () => {
     const events = await fetchData();
     createTable(events);
-    createLegend();
+})();
+// テーブルをクリアする関数
+function clearTable() {
+    const tableContainer = document.getElementById('tableContainer');
+    if (tableContainer) {
+        tableContainer.innerHTML = ''; // テーブルコンテナ内のHTMLをクリア
+    }
+}
+// フィルタリングされたイベントを表示する関数
+function filterEvents(events, filterText) {
+    const filteredEvents = events.filter(event => {
+        // フィルタテキストが topics に含まれるかチェック
+        return event.topics.toLowerCase().includes(filterText.toLowerCase());
+    });
+    // テーブルを再描画
+    clearTable();
+    createTable(filteredEvents);
+}
+// イベントを作成し、フィルタリングのためにリスナーを追加
+(async () => {
+    const events = await fetchData();
+    // フィルタ入力に対するリスナーを設定
+    const filterInput = document.getElementById('topicFilter');
+    filterInput.addEventListener('input', () => {
+        const filterText = filterInput.value;
+        filterEvents(events, filterText);
+    });
 })();

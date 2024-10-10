@@ -1,0 +1,74 @@
+/* CSSスタイルをここに貼り付けてください */
+/* テーブルのスタイル */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid black; /* カレンダーの枠線を太くする */
+}  
+th, td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid black;
+}  
+th div {
+    display: flex;
+    align-items: center;
+}  
+th button {
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    line-height: 1;
+}  
+button {
+    padding: 5px 10px;
+    cursor: pointer;
+}  
+#legend {
+    margin-top: 20px;
+}  
+#topicLegend {
+    list-style: none;
+    padding: 0;
+}  
+#topicLegend li {
+    margin-bottom: 5px;
+}  
+li{
+      font-size: 20px;
+}  
+table {
+    width: 100%;
+    margin: 0 auto; /* テーブルを中央に配置 */
+    border-collapse: collapse;
+    border: 2px solid black; /* カレンダーの枠線を太くする */
+    margin-left:0px;
+    margin-right:auto;
+}
+  
+.popup {
+    position: relative;
+    display: inline-block; /* マウスオーバーが発生する範囲を明確にする */
+    cursor: pointer; /* ユーザーに対してインタラクティブな要素であることを示す */
+}
+
+.popuptext {
+    visibility: hidden; /* 初期状態で非表示 */
+    width: 200px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1000; /* ポップアップを前面に表示 */
+    top: 100%; /* 下に表示 */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.popup:hover .popuptext {
+    visibility: visible; /* マウスオーバー時にポップアップを表示 */
+}
