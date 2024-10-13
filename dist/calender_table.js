@@ -6,7 +6,7 @@ const topicColors = {
     "BroadScope": "#65AD89",
     "Design": "#AD2D2D",
     "Manufacturing": "#972DA9",
-    "Transducer": "#EB17CE ", // WhiteSmoke
+    "Transducer": "#E0C240", // WhiteSmoke
 };
 async function fetchData() {
     const response = await fetch('https://sheets.googleapis.com/v4/spreadsheets/1Yk5buzpmd9QBQdL5xf1HB6ozU6zmXko6-ZbdwU8Ty54/values/EventTable?key=AIzaSyC-UgJmYBZ8tYGuBhTefFykSCqR4nemueY');
@@ -26,8 +26,10 @@ async function fetchData() {
             conferenceName: event["ConferenceName"],
             conferenceType: event["ConferenceType"],
             deadline: event["Deadline"],
+            mainTopic: event["MainTopic"],
             acceptanceNotification: event["Acceptance Notification"],
             cfp: event["CFP"],
+            link: event["Link"],
             topics: event["Topics"]
         });
     }
@@ -91,7 +93,10 @@ function createTable(events) {
         row.appendChild(dateCell);
         // 学会名
         const nameCell = document.createElement('td');
-        nameCell.textContent = event.conferenceName;
+        const link = document.createElement('a');
+        link.textContent = event.conferenceName;
+        link.href = event.link;
+        nameCell.appendChild(link);
         row.appendChild(nameCell);
         // 研究分野のセルを作成
         const topicCell = document.createElement('td');
@@ -101,7 +106,7 @@ function createTable(events) {
         const popupContainer = document.createElement('div');
         popupContainer.classList.add('popup');
         // テキスト（Deviceなどの内容）を作成
-        const textNode = document.createTextNode(event.conferenceType);
+        const textNode = (event.mainTopic) ? document.createTextNode(event.mainTopic) : document.createTextNode(event.conferenceType);
         // ポップアップのテキスト（event.topics）を作成
         const popupText = document.createElement('div');
         popupText.textContent = event.topics; // event.topics の内容をポップアップに表示
@@ -114,8 +119,34 @@ function createTable(events) {
         // 行にセルを追加
         row.appendChild(topicCell);
         // 投稿締め切り
+        // 今日の日付を取得
+        const today = new Date();
+        const tommorow = new Date();
+        tommorow.setDate(tommorow.getDate() - 1);
+        const seven_days_before = new Date();
+        seven_days_before.setDate(seven_days_before.getDate() + 7);
+        const deadlineDate = new Date(event.deadline);
+        // 締め切りまでの時間（ミリ秒）を取得
+        const timeRemaining = deadlineDate.getTime() - today.getTime();
+        const daysRemaining = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+        // 締め切りセルを作成
         const deadlineCell = document.createElement('td');
         deadlineCell.textContent = event.deadline;
+        // スタイル変更のロジック
+        if (deadlineDate.getTime() < tommorow.getTime()) {
+            // 今日+1日より後の場合、灰色で打ち消し線
+            deadlineCell.style.color = 'gray';
+            deadlineCell.style.textDecoration = 'line-through';
+        }
+        else if (deadlineDate.getTime() < seven_days_before.getTime()) {
+            // 今日-7日より後の場合、赤字で表示し、マウスオーバーで締め切りまでの時間を表示
+            deadlineCell.style.color = 'red';
+        }
+        else {
+            // それ以外は黒字で表示し、マウスオーバーで締め切りまでの時間を表示
+            deadlineCell.style.color = 'black';
+        }
+        // 行にセルを追加
         row.appendChild(deadlineCell);
         // 採択通知
         const notificationCell = document.createElement('td');

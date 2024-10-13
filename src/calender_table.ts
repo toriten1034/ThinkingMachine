@@ -4,8 +4,10 @@ interface EventData {
     conferenceName: string;
     conferenceType: string;
     deadline: string;
+    mainTopic: string;
     acceptanceNotification: string;
     cfp: string;
+    link: string;
     topics:string;
   }
   
@@ -16,7 +18,7 @@ interface EventData {
     "BroadScope": "#65AD89",     // 濃いブルー
     "Design": "#AD2D2D",     // WhiteSmoke
     "Manufacturing": "#972DA9",     // WhiteSmoke
-    "Transducer": "#EB17CE ",     // WhiteSmoke
+    "Transducer": "#E0C240",     // WhiteSmoke
   };
   
   async function fetchData(): Promise<EventData[]> {
@@ -40,8 +42,10 @@ interface EventData {
         conferenceName: event["ConferenceName"],
         conferenceType: event["ConferenceType"],
         deadline: event["Deadline"],
+        mainTopic: event["MainTopic"],
         acceptanceNotification: event["Acceptance Notification"],
         cfp: event["CFP"],
+        link: event["Link"],
         topics: event["Topics"]
       });
     }
@@ -120,7 +124,10 @@ interface EventData {
   
       // 学会名
       const nameCell = document.createElement('td');
-      nameCell.textContent = event.conferenceName;
+      const link = document.createElement('a');
+      link.textContent = event.conferenceName;
+      link.href = event.link;
+      nameCell.appendChild(link);
       row.appendChild(nameCell);
   
       // 研究分野のセルを作成
@@ -133,7 +140,7 @@ interface EventData {
       popupContainer.classList.add('popup');
 
       // テキスト（Deviceなどの内容）を作成
-      const textNode = document.createTextNode(event.conferenceType);
+      const textNode = (event.mainTopic)? document.createTextNode(event.mainTopic) : document.createTextNode(event.conferenceType);
 
       // ポップアップのテキスト（event.topics）を作成
       const popupText = document.createElement('div');
@@ -151,9 +158,40 @@ interface EventData {
       row.appendChild(topicCell);
         
       // 投稿締め切り
+      // 今日の日付を取得
+      const today: Date = new Date();
+      const tommorow: Date = new Date();
+      tommorow.setDate(tommorow.getDate()-1);
+      
+      const seven_days_before: Date = new Date();
+      seven_days_before.setDate(seven_days_before.getDate()+7);
+
+      const deadlineDate: Date = new Date(event.deadline);
+
+      // 締め切りまでの時間（ミリ秒）を取得
+      const timeRemaining: number = deadlineDate.getTime() - today.getTime();
+      const daysRemaining: number = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+
+      // 締め切りセルを作成
       const deadlineCell = document.createElement('td');
       deadlineCell.textContent = event.deadline;
+
+      // スタイル変更のロジック
+      if (deadlineDate.getTime() < tommorow.getTime()) {
+        // 今日+1日より後の場合、灰色で打ち消し線
+        deadlineCell.style.color = 'gray';
+        deadlineCell.style.textDecoration = 'line-through';
+      } else if (deadlineDate.getTime() < seven_days_before.getTime()) {
+        // 今日-7日より後の場合、赤字で表示し、マウスオーバーで締め切りまでの時間を表示
+        deadlineCell.style.color = 'red';
+      } else {
+        // それ以外は黒字で表示し、マウスオーバーで締め切りまでの時間を表示
+        deadlineCell.style.color = 'black';
+      }
+
+      // 行にセルを追加
       row.appendChild(deadlineCell);
+
   
       // 採択通知
       const notificationCell = document.createElement('td');
