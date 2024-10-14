@@ -219,15 +219,27 @@ interface EventData {
     const table = document.getElementById('eventsTable') as HTMLTableElement;
     const tbody = table.tBodies[0];
     const rows = Array.from(tbody.rows);
-  
-    rows.sort((a, b) => {
-      const aText = a.cells[columnIndex].textContent || "";
-      const bText = b.cells[columnIndex].textContent || "";
-  
-      if (aText < bText) return order === 'asc' ? -1 : 1;
-      if (aText > bText) return order === 'asc' ? 1 : -1;
-      return 0;
-    });
+    
+    if(columnIndex == 2){
+      rows.sort((a, b) => {
+        const aText = a.cells[columnIndex].style.backgroundColor || "";
+        const bText = b.cells[columnIndex].style.backgroundColor || "";
+    
+        if (aText < bText) return order === 'asc' ? -1 : 1;
+        if (aText > bText) return order === 'asc' ? 1 : -1;
+        return 0;
+      });  
+    }else{
+      rows.sort((a, b) => {
+        const aText = a.cells[columnIndex].textContent || "";
+        const bText = b.cells[columnIndex].textContent || "";
+    
+        if (aText < bText) return order === 'asc' ? -1 : 1;
+        if (aText > bText) return order === 'asc' ? 1 : -1;
+        return 0;
+      });
+    }
+
   
     // ソート後の行をテーブルに追加
     rows.forEach(row => tbody.appendChild(row));
